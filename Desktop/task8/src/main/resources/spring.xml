@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+    <bean id="baseRmiservice" class="impl.BaseServiceImpl"/>
+    <bean id="baseServiceExporter"  class="org.springframework.remoting.rmi.RmiServiceExporter">
+        <property name="service" ref="baseRmiservice"></property>
+        <property name="serviceName" value="baseService"></property>
+        <property name="serviceInterface" value="inface.BaseService"></property>
+        <property name="registryPort" value="7777"></property>
+    </bean>
+</beans>
