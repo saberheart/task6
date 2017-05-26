@@ -1,12 +1,81 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<beans xmlns="http://www.springframework.org/schema/beans"
-       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
-    <bean id="baseRmiservice" class="impl.BaseServiceImpl"/>
-    <bean id="baseServiceExporter"  class="org.springframework.remoting.rmi.RmiServiceExporter">
-        <property name="service" ref="baseRmiservice"></property>
-        <property name="serviceName" value="baseService"></property>
-        <property name="serviceInterface" value="inface.BaseService"></property>
-        <property name="registryPort" value="7777"></property>
+<!--  - Application context definition for "springapp" DispatcherServlet.  -->
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans>
+    <!--<bean id="baseRmiService" class="com.boco.rmi.service.impl.BaseServiceImpl"/>-->
+    <!--<bean id="baseServiceExporter" class="org.springframework.remoting.rmi.RmiServiceExporter">-->
+        <!--<property name="service" ref="baseRmiService"></property>-->
+        <!--&lt;!&ndash; 配置服务名称&ndash;&gt;-->
+        <!--<property name="serviceName" value="baseService"></property>-->
+        <!--&lt;!&ndash; 配置服务接口&ndash;&gt;-->
+        <!--<property name="serviceInterface" value="com.boco.rmi.service.inface.BaseService"></property>-->
+        <!--&lt;!&ndash; 配置服务端口&ndash;&gt;-->
+        <!--<property name="registryPort" value="7777"></property>-->
+    <!--</bean>-->
+
+    <bean id="StudentRmiService" class="com.boco.rmi.service.impl.BaseServiceImpl"/>
+    <bean id="StudentServiceExporter" class="org.springframework.remoting.rmi.RmiServiceExporter">
+        <property name="service" ref="StudentRmiService"></property>
+        <!-- 配置服务名称-->
+        <property name="serviceName" value="StudentService"></property>
+        <!-- 配置服务接口-->
+        <property name="serviceInterface" value="com.jnshu.service.StudentService"></property>
+        <!-- 配置服务端口-->
+        <property name="registryPort" value="6666"></property>
     </bean>
+
+    <bean id="mappingJacksonHttpMessageConverter"
+          class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
+        <property name="supportedMediaTypes">
+            <list>
+                <value>text/html;charset=UTF-8</value>
+            </list>
+        </property>
+    </bean>
+    <!-- 启动SpringMVC的注解功能，完成请求和注解POJO的映射 -->
+    <bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
+        <property name="messageConverters">
+            <list>
+                <ref bean="mappingJacksonHttpMessageConverter"/> <!-- JSON转换器 -->
+            </list>
+        </property>
+    </bean>
+    <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
+          destroy-method="close">
+        <property name="driverClassName" value="com.mysql.jdbc.Driver"/>
+        <property name="url" value="jdbc:mysql://localhost:3306/test"/>
+        <property name="username" value="root"/>
+        <property name="password" value="saber"/>
+        <!-- 初始化连接大小 -->
+        <property name="initialSize" value="0"></property>
+        <!-- 连接池最大数量 -->
+        <property name="maxActive" value="20"></property>
+        <!-- 连接池最大空闲 -->
+        <property name="maxIdle" value="20"></property>
+        <!-- 连接池最小空闲 -->
+        <property name="minIdle" value="1"></property>
+        <!-- 获取连接最大等待时间 -->
+        <property name="maxWait" value="60000"></property>
+    </bean>
+
+    <!-- mybatis和spring完美整合，不需要mybatis的配置映射文件 -->
+    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <property name="dataSource" ref="dataSource"/>
+        <!-- 自动扫描mapping.xml文件 -->
+        <property name="mapperLocations" value="classpath:mapping/*.xml"></property>
+    </bean>
+
+    <!-- DAO接口所在包名，Spring会自动查找其下的类 -->
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <property name="basePackage" value="com.jnshu.dao"/>
+        <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"></property>
+    </bean>
+
+
+    <!-- (事务管理)transaction manager, use JtaTransactionManager for global tx -->
+    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+
+
 </beans>

@@ -1,5 +1,5 @@
-import jnshu.BaseService;
-import jnshu.User;
+import com.boco.rmi.service.dao.User;
+import com.boco.rmi.service.inface.BaseService;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import java.rmi.NotBoundException;
@@ -28,7 +28,7 @@ public class ClientTest {
         user.setName("bocosoft");
         user.setAge(33);
         try {
-//            System.out.println(baseService.getUser(user);
+            System.out.println(1);
         } catch (Exception e) {
             // TODO Auto-generated catch block
             e.printStackTrace();

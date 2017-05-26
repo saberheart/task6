@@ -1,4 +1,4 @@
-package jnshu;
+package com.boco.rmi.service.inface;
 
 import javax.xml.registry.infomodel.User;
 
