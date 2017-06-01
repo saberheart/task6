@@ -26,4 +26,5 @@ public interface StudentService extends Remote {
     Student Login(String stu_name)throws RemoteException;
     long insert(String stu_name, String stu_pwd)throws RemoteException;
     public Student select(long id)throws RemoteException;
+    public int OP()throws RemoteException;
 }

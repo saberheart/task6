@@ -30,4 +30,5 @@ public interface StudentDao {
     Student Login(@Param("stu_name")String stu_name);
     long insert(@Param("stu_name")String stu_name,@Param("stu_pwd")String stu_pwd);
     Student select(long id);
+
 }

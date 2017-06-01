@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import java.rmi.RemoteException;
 import java.util.List;
 
 /**
@@ -56,6 +57,11 @@ public class StudentServiceImpl implements StudentService {
 
     public Student select(long id) {
         return stuDao.select(id);
+    }
+
+    @Override
+    public int OP() throws RemoteException {
+        return 1;
     }
 }
 

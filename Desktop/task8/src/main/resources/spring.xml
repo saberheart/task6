@@ -13,7 +13,7 @@
         <!--<property name="registryPort" value="7777"></property>-->
     <!--</bean>-->
 
-    <bean id="StudentRmiService" class="com.boco.rmi.service.impl.BaseServiceImpl"/>
+    <bean id="StudentRmiService" class="com.jnshu.service.StudentServiceImpl"/>
     <bean id="StudentServiceExporter" class="org.springframework.remoting.rmi.RmiServiceExporter">
         <property name="service" ref="StudentRmiService"></property>
         <!-- 配置服务名称-->
@@ -21,7 +21,7 @@
         <!-- 配置服务接口-->
         <property name="serviceInterface" value="com.jnshu.service.StudentService"></property>
         <!-- 配置服务端口-->
-        <property name="registryPort" value="6666"></property>
+        <property name="registryPort" value="7777"></property>
     </bean>
 
     <bean id="mappingJacksonHttpMessageConverter"
